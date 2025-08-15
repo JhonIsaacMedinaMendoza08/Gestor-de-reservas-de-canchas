@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongodb');
-const { getCollection } = require('../config/db');
+const { getCollection } = require('../config/db.js');
 
 async function list(req, res, next) {
     try {
@@ -31,7 +31,7 @@ async function update(req, res, next) {
             { $set: { ...payload, updatedAt: new Date() } },
             { returnDocument: 'after' }
         );
-        if (!result.value) return res.status(404).json({ message: 'No encontrado' });
+        if (!result.value) return res.status(404).json({ message: 'Actualizacion exitosa' });
         res.json(result.value);
     } catch (err) { next(err); }
 }
@@ -45,11 +45,19 @@ async function remove(req, res, next) {
             courtId: new ObjectId(id),
             endAt: { $gt: new Date() },
         });
-        if (hasFuture) return res.status(409).json({ message: '❌ No se puede eliminar: tiene reservas futuras.' });
+        if (hasFuture) {
+            return res.status(409).json({ message: '❌ No se puede eliminar: tiene reservas futuras.' });
+        }
+
         const result = await getCollection('courts').deleteOne({ _id: new ObjectId(id) });
-        if (result.deletedCount === 0) return res.status(404).json({ message: 'No encontrado' });
-        res.status(204).send();
-    } catch (err) { next(err); }
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: 'No encontrado' });
+        }
+
+        return res.status(200).json({ message: 'Cancha eliminada correctamente', id });
+    } catch (err) {
+        next(err);
+    }
 }
 
 module.exports = { list, create, update, remove };

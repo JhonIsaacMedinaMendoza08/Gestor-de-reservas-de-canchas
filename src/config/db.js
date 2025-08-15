@@ -3,7 +3,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 let client;
 let db;
 
-async function connectDB(uri, dbName) {
+async function connectDB(uri, DB_NAME) {
     if (db) return db;
     client = new MongoClient(uri, {
         serverApi: {
@@ -14,13 +14,12 @@ async function connectDB(uri, dbName) {
         maxPoolSize: 10
     });
     await client.connect();
-    db = client.db(dbname);
+    db = client.db(DB_NAME);
 
     // índices para las colecciones
     await Promise.all([
         db.collection('courts').createIndex({ name: 1 }, { unique: true }),
-        db.collection('reservations').createIndex({ courtId: 1, date: 1 }),
-        db.collection('reservations').createIndex({ startAt: 1, endAt: 1 })
+        db.collection('reservations').createIndex({ courtId: 1, date: 1, startMins: 1, endMins: 1 }),
     ]);
 
     console.log('✅ MongoDB Driver conectado');
