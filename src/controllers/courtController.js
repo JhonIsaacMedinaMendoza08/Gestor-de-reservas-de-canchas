@@ -1,13 +1,9 @@
 const { ObjectId } = require('mongodb');
 const { getCollection } = require('../config/db');
 
-
-const collectionName = 'courts';
-
-
 async function list(req, res, next) {
     try {
-        const courts = await getCollection('collectionName').find({}).sort({ name: 1 }).toArray();
+        const courts = await getCollection('courts').find({}).sort({ name: 1 }).toArray();
         res.json(courts);
     } catch (err) { next(err); }
 }
@@ -16,7 +12,7 @@ async function create(req, res, next) {
     try {
         const { name, type, pricePerHour } = req.body;
         const doc = { name, type, pricePerHour, createdAt: new Date() };
-        const result = await getCollection('collectionName').insertOne(doc);
+        const result = await getCollection('courts').insertOne(doc);
         res.status(201).json({ _id: result.insertedId, ...doc });
     } catch (err) {
         if (err.code === 11000) {
@@ -30,7 +26,7 @@ async function update(req, res, next) {
     try {
         const { id } = req.params;
         const payload = req.body;
-        const result = await getCollection('collectionName').findOneAndUpdate(
+        const result = await getCollection('courts').findOneAndUpdate(
             { _id: new ObjectId(id) },
             { $set: { ...payload, updatedAt: new Date() } },
             { returnDocument: 'after' }
@@ -50,7 +46,7 @@ async function remove(req, res, next) {
             endAt: { $gt: new Date() },
         });
         if (hasFuture) return res.status(409).json({ message: '❌ No se puede eliminar: tiene reservas futuras.' });
-        const result = await getCollection('collectionName').deleteOne({ _id: new ObjectId(id) });
+        const result = await getCollection('courts').deleteOne({ _id: new ObjectId(id) });
         if (result.deletedCount === 0) return res.status(404).json({ message: 'No encontrado' });
         res.status(204).send();
     } catch (err) { next(err); }
