@@ -26,6 +26,10 @@
     "express-validator": "^7.2.1",
     "helmet": "^8.1.0",
     "mongod": "^2.0.0",
-    "morgan": "^1.10.1"
+    "mongodb": "^6.18.0",
+    "morgan": "^1.10.1",
+    "nodemon": "^3.1.10",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   }
 }

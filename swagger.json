@@ -1,0 +1,270 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Gestor de Reservas de Canchas",
+        "version": "1.0.0",
+        "description": "API para gestionar canchas y reservas en múltiples sedes"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:4000/api",
+            "description": "Servidor local"
+        }
+    ],
+    "paths": {
+        "/courts/get": {
+            "get": {
+                "summary": "Obtener todas las canchas",
+                "responses": {
+                    "200": {
+                        "description": "Lista de canchas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Court"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/courts/post": {
+            "post": {
+                "summary": "Crear una nueva cancha",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Court"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Cancha creada correctamente"
+                    }
+                }
+            }
+        },
+        "/courts/put/{id}": {
+            "put": {
+                "summary": "Actualizar una cancha por ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Court"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cancha actualizada"
+                    }
+                }
+            }
+        },
+        "/courts/delete/{id}": {
+            "delete": {
+                "summary": "Eliminar una cancha por ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Cancha eliminada"
+                    }
+                }
+            }
+        },
+        "/reservations/get": {
+            "get": {
+                "summary": "Obtener todas las reservas",
+                "responses": {
+                    "200": {
+                        "description": "Lista de reservas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Reservation"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reservations/post": {
+            "post": {
+                "summary": "Crear una nueva reserva",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Reservation"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Reserva creada correctamente"
+                    }
+                }
+            }
+        },
+        "/reservations/put/{id}": {
+            "put": {
+                "summary": "Actualizar una reserva por ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Reservation"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Reserva actualizada"
+                    }
+                }
+            }
+        },
+        "/reservations/delete/{id}": {
+            "delete": {
+                "summary": "Eliminar una reserva por ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Reserva eliminada"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Court": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "example": "64fa4384547006af4ee455"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Cancha 1"
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "futbol"
+                    },
+                    "pricePerHour": {
+                        "type": "number",
+                        "example": 30
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "Reservation": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "example": "689fc169c89b8606aed1db8b"
+                    },
+                    "courtId": {
+                        "type": "string",
+                        "example": "689fa43b4547006af4ee456"
+                    },
+                    "clientName": {
+                        "type": "string",
+                        "example": "Juan Pérez"
+                    },
+                    "date": {
+                        "type": "string",
+                        "example": "2025-08-20"
+                    },
+                    "start": {
+                        "type": "string",
+                        "example": "15:00"
+                    },
+                    "end": {
+                        "type": "string",
+                        "example": "17:00"
+                    },
+                    "startMins": {
+                        "type": "integer",
+                        "example": 900
+                    },
+                    "endMins": {
+                        "type": "integer",
+                        "example": 1020
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            }
+        }
+    }
+}
