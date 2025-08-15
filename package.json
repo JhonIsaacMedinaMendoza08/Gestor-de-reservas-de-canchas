@@ -1,0 +1,31 @@
+{
+  "name": "gestor-de-reservas-de-canchas",
+  "version": "1.0.0",
+  "main": "app.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "lint": "eslint ."
+  },
+  "keywords": [
+    "node",
+    "express",
+    "mongodb",
+    "reservas",
+    "canchas"
+  ],
+  "author": "",
+  "license": "MIT",
+  "description": "API para gestión de canchas y reservas (Node, Express, MongoDB Driver)",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "helmet": "^8.1.0",
+    "mongod": "^2.0.0",
+    "morgan": "^1.10.1"
+  }
+}
